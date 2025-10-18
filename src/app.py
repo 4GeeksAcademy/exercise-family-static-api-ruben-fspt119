@@ -27,20 +27,38 @@ def handle_invalid_usage(error):
 def add_member():
     body = request.get_json(silent=True)
     if body is None:
-        return jsonify({'msg':'debes rellenar el body'}), 400
+        return jsonify({'msg': 'debes rellenar los campos'}), 400
     if 'first_name' not in body:
-        return jsonify({'msg':'el campo name es obligatorio'}), 400
+        return jsonify({'msg': 'el campo name es obligatorio'}), 400
     if 'age' not in body:
-        return jsonify({'msg':'el campo age es obligatorio'}), 400
+        return jsonify({'msg': 'el campo age es obligatorio'}), 400
     if 'lucky_numbers' not in body:
-        return jsonify({'msg':'el campo lucky numbers es obligatorio'}), 400
+        return jsonify({'msg': 'el campo lucky numbers es obligatorio'}), 400
     new_member = {
         'first_name': body['first_name'],
         'age': body['age'],
         'lucky_numbers': body['lucky_numbers']
     }
-    member_added=jackson_family.add_member(new_member)
-    return jsonify({'msg': 'Ha salido bien'}), 200
+    added_member = jackson_family.add_member(new_member)
+    return jsonify(added_member), 200
+
+
+@app.route('/members/<int:id>', methods=['GET'])
+def get_member(id):
+
+    member = jackson_family.get_member(id)
+
+    return jsonify(member), 200
+
+
+@app.route('/members/<int:id>', methods=['DELETE'])
+def delete_member(id):
+
+    result = jackson_family.delete_member(id)
+    if result:
+        return jsonify({'done': True}), 200
+    else:
+        return jsonify({'error': 'Miembro no encontrado'}), 404
 
 
 @app.route('/members', methods=['GET'])
@@ -49,15 +67,6 @@ def handle_hello():
     members = jackson_family.get_all_members()
     response_body = members
     return jsonify(response_body), 200
-
-@app.route('/members/<int:id>', methods=['GET'])
-def get_member(id):
-    
-    member = jackson_family.get_member(id)
-    
-    return jsonify(member), 200
-
-
 
 
 # This only runs if `$ python src/app.py` is executed

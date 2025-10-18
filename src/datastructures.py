@@ -46,16 +46,18 @@ class FamilyStructure:
         member['last_name'] = self.last_name
         member['id'] = self._generate_id()
         self._members.append(member)
-
-        pass
+        return member
 
     def delete_member(self, id):
-        # You have to implement this method
-        # Loop the list and delete the member with the given id
-        pass
+        for member in self._members:
+            if member["id"] == id:
+                self._members.remove(member)
+            return True
+        return False
 
     def get_member(self, id):
         for member in self._members:
+
             if member["id"] == id:
                 return {
                     "id": member["id"],
