@@ -50,7 +50,7 @@ class FamilyStructure:
 
     def delete_member(self, id):
         for member in self._members:
-            if member["id"] == id:
+            if member['id'] == id:
                 self._members.remove(member)
             return True
         return False
@@ -58,12 +58,12 @@ class FamilyStructure:
     def get_member(self, id):
         for member in self._members:
 
-            if member["id"] == id:
+            if member['id'] == id:
                 return {
-                    "id": member["id"],
-                    "first_name": member["first_name"],
-                    "age": member["age"],
-                    "lucky_numbers": member["lucky_numbers"]
+                    'id': member['id'],
+                    'first_name': member['first_name'],
+                    'age': member['age'],
+                    'lucky_numbers': member['lucky_numbers']
                 }
         return None
 
